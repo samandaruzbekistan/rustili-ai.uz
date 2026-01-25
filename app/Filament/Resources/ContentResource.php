@@ -93,7 +93,8 @@ class ContentResource extends Resource
                             ->label('Muqova rasmi')
                             ->image()
                             ->directory('contents')
-                            ->imageEditor(),
+                            ->imageEditor()
+                            ->helperText('JPG, PNG, GIF, WEBP formatlaridagi rasmlar'),
                     ])
                     ->columns(2),
 
@@ -163,7 +164,7 @@ class ContentResource extends Resource
                             ->label('')
                             ->content('💡 Eslatma: "Nom (RU)" va "Nom (UZ)" maydonlari savol matni sifatida ishlatiladi.')
                             ->columnSpanFull(),
-                            
+
                         Forms\Components\RichEditor::make('body_ru')
                             ->label('Javob (RU)')
                             ->toolbarButtons([
