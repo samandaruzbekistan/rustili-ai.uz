@@ -145,14 +145,18 @@ class Section extends Model
             '/src=["\']([^"\']*storage\/[^"\']*)["\']/i',
             function ($matches) {
                 $url = trim($matches[1], '"');
+
                 // Agar URL /storage/ bilan boshlanmasa, qo'shish
                 if (strpos($url, '/storage/') === false && strpos($url, 'storage/') !== false) {
                     $url = '/' . $url;
                 }
+
                 // Agar URL /storage/ bilan boshlansa, asset() qo'shish
-                if (strpos($url, '/storage/') === 0) {
+                // Lekin agar URL allaqachon to'liq URL bo'lsa (http:// yoki https://), o'zgartirmaslik
+                if (strpos($url, '/storage/') === 0 && !preg_match('/^https?:\/\//', $url)) {
                     $url = asset($url);
                 }
+
                 return 'src="' . $url . '"';
             },
             $description

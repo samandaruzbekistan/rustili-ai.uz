@@ -44,50 +44,23 @@
     {{-- Filter panel --}}
     <div class="filter-panel">
         <div style="display: flex; flex-wrap: wrap; gap: var(--space-lg);">
-            {{-- Age filter --}}
-            <div>
-                <p class="filter-title">👶 {{ current_locale() === 'uz' ? 'Yosh bo\'yicha' : 'По возрасту' }}:</p>
-                <div class="filter-group">
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}" 
-                       class="filter-btn {{ !request('age_from') ? 'active' : '' }}">
-                        {{ current_locale() === 'uz' ? 'Hammasi' : 'Все' }}
-                    </a>
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?age_from=3&age_to=5" 
-                       class="filter-btn {{ request('age_from') == 3 && request('age_to') == 5 ? 'active' : '' }}">
-                        3-5 {{ current_locale() === 'uz' ? 'yosh' : 'лет' }}
-                    </a>
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?age_from=6&age_to=8" 
-                       class="filter-btn {{ request('age_from') == 6 && request('age_to') == 8 ? 'active' : '' }}">
-                        6-8 {{ current_locale() === 'uz' ? 'yosh' : 'лет' }}
-                    </a>
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?age_from=9&age_to=10" 
-                       class="filter-btn {{ request('age_from') == 9 && request('age_to') == 10 ? 'active' : '' }}">
-                        9-10 {{ current_locale() === 'uz' ? 'yosh' : 'лет' }}
-                    </a>
-                </div>
-            </div>
-            
             {{-- Type filter --}}
             <div>
                 <p class="filter-title">📁 {{ current_locale() === 'uz' ? 'Turi bo\'yicha' : 'По типу' }}:</p>
                 <div class="filter-group">
-                    @php
-                        $currentParams = http_build_query(request()->only(['age_from', 'age_to']));
-                        $queryString = $currentParams ? '?' . $currentParams : '';
-                    @endphp
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}{{ $queryString }}" 
+                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}" 
                        class="filter-btn {{ !request('type') ? 'active' : '' }}">
                         {{ current_locale() === 'uz' ? 'Hammasi' : 'Все' }}
                     </a>
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?type=text{{ $currentParams ? '&' . $currentParams : '' }}" 
+                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?type=text" 
                        class="filter-btn {{ request('type') == 'text' ? 'active' : '' }}">
                         📖 {{ current_locale() === 'uz' ? 'Matn' : 'Текст' }}
                     </a>
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?type=audio{{ $currentParams ? '&' . $currentParams : '' }}" 
+                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?type=audio" 
                        class="filter-btn {{ request('type') == 'audio' ? 'active' : '' }}">
                         🎧 Audio
                     </a>
-                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?type=video{{ $currentParams ? '&' . $currentParams : '' }}" 
+                    <a href="{{ locale_url('section.show', ['chapterSlug' => $chapter->slug, 'sectionSlug' => $section->slug]) }}?type=video" 
                        class="filter-btn {{ request('type') == 'video' ? 'active' : '' }}">
                         🎬 Video
                     </a>
