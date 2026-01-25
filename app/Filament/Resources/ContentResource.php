@@ -218,11 +218,12 @@ class ContentResource extends Resource
                 // Video kontent (type = video, mixed)
                 Forms\Components\Section::make('Video')
                     ->schema([
-                        Forms\Components\TextInput::make('video_url')
-                            ->label('Video manzili')
-                            ->url()
-                            ->placeholder('https://youtube.com/watch?v=...')
-                            ->helperText('YouTube, Vimeo yoki boshqa video platformalar'),
+                        Forms\Components\Textarea::make('video_url')
+                            ->label('Video iframe kodi')
+                            ->placeholder('<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                            ->rows(3)
+                            ->helperText('YouTube yoki boshqa platformadan iframe HTML kodini copy qilib qo\'ying')
+                            ->columnSpanFull(),
                     ])
                     ->visible(fn (Forms\Get $get): bool => in_array($get('type'), ['video', 'mixed'])),
 

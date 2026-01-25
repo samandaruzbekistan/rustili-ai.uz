@@ -89,21 +89,30 @@
         @if($content->video_url)
             <div class="video-player">
                 @php
-                    // YouTube URL ni embed formatiga o'girish
+                    // Agar iframe kod bo'lsa, to'g'ridan-to'g'ri ko'rsatish
                     $videoUrl = $content->video_url;
-                    if (str_contains($videoUrl, 'youtube.com/watch')) {
-                        preg_match('/v=([^&]+)/', $videoUrl, $matches);
-                        $videoId = $matches[1] ?? '';
-                        $videoUrl = "https://www.youtube.com/embed/{$videoId}";
-                    } elseif (str_contains($videoUrl, 'youtu.be/')) {
-                        $videoId = basename($videoUrl);
-                        $videoUrl = "https://www.youtube.com/embed/{$videoId}";
-                    }
+                    $isIframe = str_contains($videoUrl, '<iframe');
                 @endphp
-                <iframe src="{{ $videoUrl }}" 
-                        allowfullscreen
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                </iframe>
+                @if($isIframe)
+                    {!! $videoUrl !!}
+                @else
+                    {{-- Eski URL formatini qo'llab-quvvatlash (backward compatibility) --}}
+                    @php
+                        // YouTube URL ni embed formatiga o'girish
+                        if (str_contains($videoUrl, 'youtube.com/watch')) {
+                            preg_match('/v=([^&]+)/', $videoUrl, $matches);
+                            $videoId = $matches[1] ?? '';
+                            $videoUrl = "https://www.youtube.com/embed/{$videoId}";
+                        } elseif (str_contains($videoUrl, 'youtu.be/')) {
+                            $videoId = basename($videoUrl);
+                            $videoUrl = "https://www.youtube.com/embed/{$videoId}";
+                        }
+                    @endphp
+                    <iframe src="{{ $videoUrl }}" 
+                            allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                    </iframe>
+                @endif
             </div>
         @endif
 
