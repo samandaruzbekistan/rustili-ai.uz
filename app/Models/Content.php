@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * Content (Material) modeli
  * Ertak, she'r, topishmoq, test, audio, video va h.k.
- * 
+ *
  * @property int $id
  * @property int $chapter_id
  * @property int|null $section_id
@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null $body_ru
  * @property string|null $body_uz
  * @property string|null $audio_url
+ * @property string|null $audio_path
  * @property string|null $video_url
  * @property string|null $file_url
  * @property string|null $cover_image
@@ -42,6 +43,7 @@ class Content extends Model
         'body_ru',
         'body_uz',
         'audio_url',
+        'audio_path',
         'video_url',
         'file_url',
         'cover_image',

@@ -68,18 +68,26 @@
         {{-- Cover image --}}
         @if($content->cover_image)
             <div style="margin-bottom: var(--space-lg); text-align: center; overflow: hidden;">
-                <img src="{{ Storage::url($content->cover_image) }}" 
+                <img src="{{ Storage::url($content->cover_image) }}"
                      alt="{{ $content->title_ru }}"
                      style="max-width: 100%; height: auto; border-radius: var(--radius-md); box-shadow: var(--shadow-md); display: block; margin: 0 auto;">
             </div>
         @endif
 
-        {{-- Audio player --}}
-        @if($content->audio_url)
+        {{-- Audio player (yuklangan fayl yoki tashqi URL) --}}
+        @php
+            $audioSrc = $content->audio_path
+                ? \Illuminate\Support\Facades\Storage::url($content->audio_path)
+                : $content->audio_url;
+            $audioMime = $content->audio_path
+                ? (str_ends_with(strtolower($content->audio_path), '.mp3') ? 'audio/mpeg' : (str_ends_with(strtolower($content->audio_path), '.ogg') ? 'audio/ogg' : (str_ends_with(strtolower($content->audio_path), '.wav') ? 'audio/wav' : 'audio/mpeg')))
+                : 'audio/mpeg';
+        @endphp
+        @if($audioSrc)
             <div class="audio-player">
                 <p style="font-weight: 700; margin-bottom: var(--space-sm);">🎧 Tinglash / Слушать:</p>
                 <audio controls style="width: 100%;">
-                    <source src="{{ $content->audio_url }}" type="audio/mpeg">
+                    <source src="{{ $audioSrc }}" type="{{ $audioMime }}">
                     Sizning brauzeringiz audio formatini qo'llab-quvvatlamaydi.
                 </audio>
             </div>
@@ -108,7 +116,7 @@
                             $videoUrl = "https://www.youtube.com/embed/{$videoId}";
                         }
                     @endphp
-                    <iframe src="{{ $videoUrl }}" 
+                    <iframe src="{{ $videoUrl }}"
                             allowfullscreen
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
                     </iframe>
@@ -121,7 +129,7 @@
             <div class="content-body">
                 {!! $content->body_ru !!}
             </div>
-            
+
             @if($content->body_uz)
                 <hr style="margin: var(--space-xl) 0; border: none; border-top: 2px solid var(--color-bg-section);">
                 <p style="font-weight: 700; margin-bottom: var(--space-sm); color: var(--color-primary);">
@@ -137,8 +145,8 @@
         @if($content->file_url)
             <div style="margin: var(--space-lg) 0; padding: var(--space-lg); background: var(--color-bg-section); border-radius: var(--radius-md);">
                 <p style="font-weight: 700; margin-bottom: var(--space-sm);">📁 Yuklab olish / Скачать:</p>
-                <a href="{{ Storage::url($content->file_url) }}" 
-                   class="btn btn-primary" 
+                <a href="{{ Storage::url($content->file_url) }}"
+                   class="btn btn-primary"
                    download
                    target="_blank">
                     ⬇️ Faylni yuklab olish
@@ -178,7 +186,7 @@
             @else
                 <span></span>
             @endif
-            
+
             @if($nextContent)
                 <a href="{{ locale_url('content.show', ['id' => $nextContent->id]) }}" class="btn btn-primary">
                     {{ Str::limit(current_locale() === 'uz' && $nextContent->title_uz ? $nextContent->title_uz : $nextContent->title_ru, 20) }} →

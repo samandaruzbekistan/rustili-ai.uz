@@ -208,11 +208,16 @@ class ContentResource extends Resource
                 // Audio kontent (type = audio, mixed)
                 Forms\Components\Section::make('Audio')
                     ->schema([
+                        Forms\Components\FileUpload::make('audio_path')
+                            ->label('Audio fayl yuklash')
+                            ->directory('contents/audio')
+                            ->acceptedFileTypes(['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/webm'])
+                            ->helperText('MP3, WAV, OGG, WEBM. Fayl sayt storage\'ida saqlanadi.'),
                         Forms\Components\TextInput::make('audio_url')
-                            ->label('Audio fayl manzili')
+                            ->label('Yoki tashqi audio manzili (CDN/URL)')
                             ->url()
                             ->placeholder('https://example.com/audio.mp3')
-                            ->helperText('Audio faylga to\'liq URL yoki FileUpload orqali yuklang'),
+                            ->helperText('Agar fayl yuklamasangiz, tashqi link kiriting. Yuklangan fayl ustunlik qiladi.'),
                     ])
                     ->visible(fn (Forms\Get $get): bool => in_array($get('type'), ['audio', 'mixed'])),
 
