@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::get('/set-locale/{locale}', function ($locale) {
 Route::prefix('{locale}')->where(['locale' => 'uz|ru'])->middleware('locale')->group(function () {
     // Bosh sahifa - Barcha boblar ro'yxati
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    // Avtor haqida sahifa
+    Route::get('/about-author', [PageController::class, 'author'])->name('page.author');
 
     // Bo'lim sahifasi - Materiallar ro'yxati (anroq route oldin bo'lishi kerak)
     Route::get('/chapter/{chapterSlug}/section/{sectionSlug}', [SectionController::class, 'show'])
